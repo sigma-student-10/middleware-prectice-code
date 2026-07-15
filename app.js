@@ -41,11 +41,15 @@ app.get("/err", (req, res) => {
     abcd = abcd;
 });
 
-app.use((err, req, res, next) => {
-    console.log("----- ERROR ------");
-    res.send(err);
-});
+app.get("/admin", (req, res) => {
+    throw new ExpressError(403, "Access is Forbidden")
+})
 
+app.use((err, req, res, next) => {
+    let {status = 500, message = "Some Error Occured" } = err;
+    res.status(status).send(message);
+
+});
 // //logger
 // app.use((req, res, next) => {
 //     req.time = Date.now();
